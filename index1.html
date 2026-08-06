@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-ru="Bjarmkirja — Финно-угорская библиотека" data-en="Bjarmkirja — Finno-Ugric Library" data-fi="Bjarmkirja — Suomalais-ugrilainen kirjasto">Bjarmkirja — Финно-угорская библиотека</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: #faf8f5;
+    color: #1a1a1a;
+  }
+
+  /* SVG-звезда (восьмиугольная, как на флаге Удмуртии) */
+  .star-icon {
+    width: 36px; height: 36px;
+    fill: #c41e1e;
+  }
+  .star-hero {
+    width: 64px; height: 64px;
+    fill: #c41e1e;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 12px rgba(196,30,30,0.3));
+  }
+
+  /* HEADER */
+  .site-header { background: #1a1a1a; color: #fff; }
+  .header-top {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 48px; border-bottom: 1px solid #333;
+  }
+  .logo-block { display: flex; align-items: center; gap: 14px; }
+  .logo-text {
+    font-size: 20px; letter-spacing: 3px; text-transform: uppercase;
+    color: #f0ebe3;
+  }
+  .logo-sub {
+    font-size: 10px; color: #8b7355; letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex; gap: 32px; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 2px;
+    font-family: sans-serif;
+  }
+  .nav-links a { color: #888; text-decoration: none; }
+  .nav-links a:hover { color: #fff; }
+
+  /* LANGUAGE SWITCHER */
+  .lang-switch {
+    display: flex; gap: 6px;
+    font-family: sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+  .lang-btn {
+    background: transparent;
+    border: 1px solid #444;
+    color: #888;
+    padding: 6px 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .lang-btn:hover { border-color: #c41e1e; color: #fff; }
+  .lang-btn.active { background: #c41e1e; border-color: #c41e1e; color: #fff; }
+
+  /* HERO */
+  .hero {
+    padding: 60px 48px; text-align: center; background: #1a1a1a;
+  }
+  .hero h1 {
+    font-size: 48px; font-weight: 300; letter-spacing: 6px;
+    text-transform: uppercase; color: #f0ebe3; margin-bottom: 10px;
+  }
+  .hero .tagline {
+    font-size: 16px; color: #8b7355; font-style: italic;
+    margin-bottom: 30px;
+  }
+  .search-box { max-width: 520px; margin: 0 auto; }
+  .search-box input {
+    width: 100%; padding: 16px 24px; border: 1px solid #444;
+    background: #222; color: #fff; font-size: 15px;
+    font-family: 'Georgia', serif; outline: none;
+  }
+  .search-box input:focus { border-color: #c41e1e; }
+  .search-box input::placeholder { color: #555; }
+
+  /* STATS */
+  .stats-bar {
+    display: flex; justify-content: center; gap: 60px;
+    padding: 20px 48px; background: #222;
+    border-top: 1px solid #333; border-bottom: 1px solid #333;
+  }
+  .stat-num { font-size: 26px; font-weight: 300; color: #f0ebe3; }
+  .stat-label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 2px;
+    color: #8b7355; margin-top: 4px; font-family: sans-serif;
+  }
+
+  /* FILTERS */
+  .filter-bar {
+    position: sticky; top: 0; background: #fff;
+    padding: 14px 48px; border-bottom: 1px solid #e8e0d4;
+    display: flex; gap: 8px; flex-wrap: wrap; z-index: 50;
+  }
+  .filter-chip {
+    padding: 8px 16px; border: 1px solid #e0d8cc; background: #fff;
+    cursor: pointer; font-size: 11px; text-transform: uppercase;
+    letter-spacing: 1px; font-family: sans-serif; color: #5a4a3a;
+  }
+  .filter-chip:hover { border-color: #c41e1e; color: #c41e1e; }
+  .filter-chip.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+
+  /* SECTIONS */
+  .featured-section, .book-section, .gallery-section {
+    padding: 48px; background: #fff;
+  }
+  .section-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 28px; border-bottom: 2px solid #1a1a1a; padding-bottom: 10px;
+  }
+  .section-title {
+    font-size: 22px; text-transform: uppercase; letter-spacing: 3px;
+  }
+  .section-more {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 2px;
+    color: #8b7355; cursor: pointer; font-family: sans-serif;
+  }
+
+  /* FEATURED */
+  .featured-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px;
+  }
+  .feat-card {
+    background: #f5f3ef; border: 1px solid #e8e0d4;
+    padding: 32px; display: flex; flex-direction: column;
+    justify-content: flex-end; min-height: 280px; cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .feat-card:hover { transform: translateY(-3px); }
+  .feat-card .label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
+    color: #c41e1e; margin-bottom: 10px; font-family: sans-serif;
+  }
+  .feat-card h3 {
+    font-size: 22px; font-weight: 400; line-height: 1.3; margin-bottom: 8px;
+  }
+  .feat-card p { font-size: 14px; color: #666; line-height: 1.5; }
+  .feat-small h3 { font-size: 16px; }
+  .feat-small .meta { font-size: 12px; color: #888; margin-top: 6px; font-family: sans-serif; }
+
+  /* BOOK LIST */
+  .list-section { padding: 40px 48px; background: #faf8f5; }
+  .book-row {
+    display: flex; gap: 20px; padding: 20px 0;
+    border-bottom: 1px solid #e8e0d4; align-items: flex-start;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .book-row:hover { background: #f5f3ef; }
+  .book-num {
+    font-size: 28px; font-weight: 300; color: #ccc;
+    min-width: 44px; line-height: 1;
+  }
+  .book-info h4 { font-size: 17px; font-weight: 400; margin-bottom: 4px; }
+  .book-meta { font-size: 13px; color: #888; font-family: sans-serif; margin-bottom: 8px; }
+  .book-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .book-tag {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+    padding: 3px 10px; border: 1px solid #c4b8a8; color: #5a4a3a;
+    font-family: sans-serif;
+  }
+  .book-tag.people { background: #c41e1e; color: #fff; border-color: #c41e1e; }
+
+  /* ═══════════════════════════════════════════════════════════════
+     СЕКЦИЯ КНИГИ «ЦАРЬ КОРЪ» — встроенный просмотр PDF
+     ═══════════════════════════════════════════════════════════════ */
+  .book-viewer {
+    background: #f5f3ef;
+    border: 1px solid #e8e0d4;
+    padding: 32px;
+    margin-top: 20px;
+  }
+  .book-viewer-info {
+    display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .book-cover {
+    width: 160px; height: 220px;
+    background: #1a1a1a;
+    display: flex; align-items: center; justify-content: center;
+    color: #8b7355;
+    font-size: 12px;
+    text-align: center;
+    padding: 12px;
+    flex-shrink: 0;
+    border: 2px solid #c41e1e;
+  }
+  .book-details h3 {
+    font-size: 24px; font-weight: 400; margin-bottom: 8px;
+    text-transform: uppercase; letter-spacing: 2px;
+  }
+  .book-details .book-year {
+    font-size: 13px; color: #888; font-family: sans-serif; margin-bottom: 12px;
+  }
+  .book-details p {
+    font-size: 14px; color: #555; line-height: 1.6; max-width: 600px;
+  }
+  .book-actions {
+    display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: sans-serif;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid #1a1a1a;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: #1a1a1a; color: #fff; border-color: #1a1a1a;
+  }
+  .btn-primary:hover { background: #c41e1e; border-color: #c41e1e; }
+  .btn-outline {
+    background: transparent; color: #1a1a1a;
+  }
+  .btn-outline:hover { background: #1a1a1a; color: #fff; }
+
+  .pdf-frame {
+    width: 100%;
+    height: 600px;
+    border: 1px solid #ddd;
+    background: #fff;
+  }
+  .pdf-fallback {
+    padding: 40px;
+    text-align: center;
+    color: #888;
+    font-family: sans-serif;
+    font-size: 13px;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     ГАЛЕРЕЯ — CSS Grid + Lightbox на чистом JS
+     ═══════════════════════════════════════════════════════════════ */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .gallery-item {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    cursor: pointer;
+    background: #e8e0d4;
+    border: 1px solid #ddd;
+  }
+  .gallery-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.3s;
+  }
+  .gallery-item:hover img { transform: scale(1.05); }
+  .gallery-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(26,26,26,0.85);
+    color: #f0ebe3;
+    font-size: 12px;
+    font-family: sans-serif;
+    padding: 10px 14px;
+    transform: translateY(100%);
+    transition: transform 0.3s;
+  }
+  .gallery-item:hover .gallery-caption { transform: translateY(0); }
+
+  /* LIGHTBOX */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox-img {
+    max-width: 90vw;
+    max-height: 80vh;
+    object-fit: contain;
+    border: 2px solid #333;
+  }
+  .lightbox-caption {
+    color: #aaa;
+    font-family: sans-serif;
+    font-size: 13px;
+    margin-top: 16px;
+    text-align: center;
+    max-width: 80vw;
+  }
+  .lightbox-close,
+  .lightbox-prev,
+  .lightbox-next {
+    position: absolute;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    width: 44px; height: 44px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .lightbox-close:hover,
+  .lightbox-prev:hover,
+  .lightbox-next:hover { background: rgba(196,30,30,0.8); border-color: #c41e1e; }
+  .lightbox-close { top: 20px; right: 20px; }
+  .lightbox-prev { left: 20px; top: 50%; transform: translateY(-50%); }
+  .lightbox-next { right: 20px; top: 50%; transform: translateY(-50%); }
+
+  /* FOOTER */
+  .site-footer {
+    background: #1a1a1a; color: #555; padding: 32px 48px;
+    text-align: center; font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; font-family: sans-serif;
+  }
+
+  @media (max-width: 900px) {
+    .featured-grid { grid-template-columns: 1fr; }
+    .header-top, .hero, .stats-bar, .filter-bar,
+    .featured-section, .list-section, .book-section,
+    .gallery-section { padding-left: 20px; padding-right: 20px; }
+    .hero h1 { font-size: 30px; }
+    .stats-bar { gap: 20px; flex-wrap: wrap; }
+    .book-viewer-info { flex-direction: column; align-items: center; text-align: center; }
+    .pdf-frame { height: 400px; }
+    .lightbox-prev, .lightbox-next { display: none; } /* на телефоне свайп лучше, но пока скроем */
+  }
+</style>
+</head>
+<body>
+
+<!-- SVG: восьмиугольная звезда (флаг Удмуртии) -->
+<svg style="display:none;">
+  <symbol id="udmurt-star" viewBox="0 0 100 100">
+    <rect x="42" y="42" width="16" height="16" fill="currentColor"/>
+    <polygon points="50,0 58,15 50,30 42,15" fill="currentColor"/>
+    <polygon points="100,50 85,58 70,50 85,42" fill="currentColor"/>
+    <polygon points="50,100 42,85 50,70 58,85" fill="currentColor"/>
+    <polygon points="0,50 15,42 30,50 15,58" fill="currentColor"/>
+    <polygon points="85,15 92,25 78,35 70,22" fill="currentColor"/>
+    <polygon points="85,85 70,78 78,65 92,75" fill="currentColor"/>
+    <polygon points="15,85 22,70 35,78 25,92" fill="currentColor"/>
+    <polygon points="15,15 25,8 35,22 22,30" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-top">
+    <div class="logo-block">
+      <svg class="star-icon"><use href="#udmurt-star"/></svg>
+      <div>
+        <div class="logo-text">Bjarmkirja</div>
+        <div class="logo-sub" data-ru="Финно-угорская библиотека" data-en="Finno-Ugric Library" data-fi="Suomalais-ugrilainen kirjasto">Финно-угорская библиотека</div>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="#catalog" data-ru="Каталог" data-en="Catalog" data-fi="Luettelo">Каталог</a>
+      <a href="#peoples" data-ru="Народы" data-en="Peoples" data-fi="Kansat">Народы</a>
+      <a href="#about" data-ru="О проекте" data-en="About" data-fi="Tietoa">О проекте</a>
+    </nav>
+    <!-- ═══════════════════════════════════════════════
+         ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКОВ: RU / EN / FI
+         ═══════════════════════════════════════════════ -->
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('ru', this)">RU</button>
+      <button class="lang-btn" onclick="setLang('en', this)">EN</button>
+      <button class="lang-btn" onclick="setLang('fi', this)">FI</button>
+    </div>
+  </div>
+  <div class="hero">
+    <svg class="star-hero"><use href="#udmurt-star"/></svg>
+    <h1>Bjarmkirja</h1>
+    <p class="tagline" data-ru="Собрание книг, статей и исследований о народах Урала"
+       data-en="Collection of books, articles and research on the peoples of the Urals"
+       data-fi="Kirjojen, artikkelien ja tutkimusten kokoelma Uralin kansoista">
+       Собрание книг, статей и исследований о народах Урала
+    </p>
+    <div class="search-box">
+      <input type="text"
+             data-ru-placeholder="Поиск по названию, автору, народу или языку..."
+             data-en-placeholder="Search by title, author, people or language..."
+             data-fi-placeholder="Hae otsikon, tekijän, kansan tai kielen mukaan..."
+             placeholder="Поиск по названию, автору, народу или языку...">
+    </div>
+  </div>
+  <div class="stats-bar">
+    <div><div class="stat-num">248</div><div class="stat-label" data-ru="Материалов" data-en="Materials" data-fi="Aineistoa">Материалов</div></div>
+    <div><div class="stat-num">8</div><div class="stat-label" data-ru="Народов" data-en="Peoples" data-fi="Kansaa">Народов</div></div>
+    <div><div class="stat-num">12</div><div class="stat-label" data-ru="Языков" data-en="Languages" data-fi="Kieltä">Языков</div></div>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <button class="filter-chip active" onclick="filter('all',this)" data-ru="Все" data-en="All" data-fi="Kaikki">Все</button>
+  <button class="filter-chip" onclick="filter('марийцы',this)">Марийцы</button>
+  <button class="filter-chip" onclick="filter('удмурты',this)">Удмурты</button>
+  <button class="filter-chip" onclick="filter('саами',this)">Саами</button>
+  <button class="filter-chip" onclick="filter('коми',this)">Коми</button>
+  <button class="filter-chip" onclick="filter('мордва',this)">Мордва</button>
+  <button class="filter-chip" onclick="filter('венгры',this)">Венгры</button>
+  <button class="filter-chip" onclick="filter('финны',this)">Финны</button>
+</div>
+
+<section class="featured-section">
+  <div class="section-header">
+    <h2 class="section-title" data-ru="Избранное" data-en="Featured" data-fi="Suosikit">Избранное</h2>
+    <span class="section-more" data-ru="Смотреть все →" data-en="View all →" data-fi="Näytä kaikki →">Смотреть все →</span>
+  </div>
+  <div class="featured-grid">
+    <div class="feat-card">
+      <div class="label">Марийцы · <span data-ru="Монография" data-en="Monograph" data-fi="Monografia">Монография</span> · 2022</div>
+      <h3 data-ru="История и культура марийского народа: от древности до современности"
+          data-en="History and culture of the Mari people: from antiquity to the present"
+          data-fi="Marin kansan historia ja kulttuuri: muinaisuudesta nykypäivään">
+          История и культура марийского народа: от древности до современности
+      </h3>
+      <p data-ru="Сергеев В.П. — всестороннее исследование истории, языка и традиций."
+         data-en="Sergeev V.P. — a comprehensive study of history, language and traditions."
+         data-fi="Sergeev V.P. — kattava tutkimus historiasta, kielestä ja perinteistä.">
+         Сергеев В.П. — всестороннее исследование истории, языка и традиций.
+      </p>
+    </div>
+    <div class="feat-card feat-small">
+      <div class="label">Удмурты · <span data-ru="Словарь" data-en="Dictionary" data-fi="Sanakirja">Словарь</span> · 2014</div>
+      <h3 data-ru="Удмуртско-русский словарь" data-en="Udmurt-Russian dictionary" data-fi="Udmurttilais-venäläinen sanakirja">Удмуртско-русский словарь</h3>
+      <div class="meta">Кельмаков В.К. · 45 000 <span data-ru="слов" data-en="words" data-fi="sanaa">слов</span></div>
+    </div>
+    <div class="feat-card feat-small">
+      <div class="label">Саами · <span data-ru="Этнография" data-en="Ethnography" data-fi="Etnografia">Этнография</span> · 2020</div>
+      <h3>The Saami People: Traditions in Transitions</h3>
+      <div class="meta">Valkonen J. · University of Helsinki Press</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     СЕКЦИЯ КНИГИ «ЦАРЬ КОРЪ» — встроенный просмотр PDF
+
+     КАК ДОБАВИТЬ СВОЮ КНИГУ:
+     1. Положите PDF-файл в папку books/ рядом с index.html
+     2. Переименуйте файл (без пробелов и русских букв в имени файла):
+        например: books/tsar-kor.pdf
+     3. В атрибуте src у <iframe> ниже укажите путь к вашему PDF
+     4. Обновите текст в блоке .book-details
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="book-section" id="tsar-kor">
+  <div class="section-header">
+    <h2 class="section-title" data-ru="Редкие издания" data-en="Rare editions" data-fi="Harvinaiset painokset">Редкие издания</h2>
+  </div>
+
+  <div class="book-viewer">
+    <div class="book-viewer-info">
+      <div class="book-cover">
+        <span data-ru="ЦАРЬ&#10;КОРЪ&#10;1911" data-en="TSAR&#10;KOR&#10;1911" data-fi="TSARI&#10;KOR&#10;1911">ЦАРЬ<br>КОРЪ<br>1911</span>
+      </div>
+      <div class="book-details">
+        <h3 data-ru="Царь Коръ" data-en="Tsar Kor" data-fi="Tsari Kor">Царь Коръ</h3>
+        <div class="book-year" data-ru="Чердынское предание · 1911 · Архангельская губернская типография"
+             data-en="Cherdyn legend · 1911 · Arkhangelsk Governorate Typography"
+             data-fi="Cherdynin legenda · 1911 · Arkangelin kuvernementin kirjapaino">
+             Чердынское предание · 1911 · Архангельская губернская типография
+        </div>
+        <p data-ru="Редкое издание 1911 года, перепечатанное из «Архангельских губернских ведомостей». Сохранило чердынский фольклорный эпос о царе Коре — пермском богатыре, защищавшем земли от иноземных войск. Текст набран дореформенной орфографией."
+           data-en="A rare 1911 edition, reprinted from the Arkhangelsk Governorate Gazette. Preserves the Cherdyn folk epic about Tsar Kor — a Permian hero who defended the lands from foreign troops. The text is set in pre-reform orthography."
+           data-fi="Harvinainen vuoden 1911 painos, joka on uudelleenpainettu Arkangelin kuvernementin sanomalehdestä. Säilyttää Cherdynin kansanepoksen tsari Korista — permiläisestä sankarista, joka puolusti maita vierailta joukoilta. Teksti on painettu esiuudistusortografialla.">
+           Редкое издание 1911 года, перепечатанное из «Архангельских губернских ведомостей». Сохранило чердынский фольклорный эпос о царе Коре — пермском богатыре, защищавшем земли от иноземных войск. Текст набран дореформенной орфографией.
+        </p>
+        <div class="book-actions">
+          <!-- ВСТРОЕННЫЙ ПРОСМОТР PDF — работает на GitHub Pages!
+               Просто положите PDF в папку books/ и укажите путь ниже -->
+          <a class="btn btn-primary"
+             href="books/tsar-kor.pdf"
+             target="_blank"
+             data-ru="📖 Читать PDF" data-en="📖 Read PDF" data-fi="📖 Lue PDF">
+             📖 Читать PDF
+          </a>
+          <a class="btn btn-outline"
+             href="books/tsar-kor.pdf"
+             download
+             data-ru="⬇ Скачать" data-en="⬇ Download" data-fi="⬇ Lataa">
+             ⬇ Скачать
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- iframe встроит PDF прямо на страницу.
+         Если браузер не поддерживает — покажет fallback.
+         Для GitHub Pages: просто загрузите PDF в репозиторий. -->
+    <iframe class="pdf-frame"
+            src="books/tsar-kor.pdf"
+            title="Tsar Kor PDF viewer">
+      <div class="pdf-fallback">
+        <p data-ru="Ваш браузер не поддерживает встроенный просмотр PDF."
+           data-en="Your browser does not support embedded PDF viewing."
+           data-fi="Selaimesi ei tue upotettua PDF-katselua.">
+           Ваш браузер не поддерживает встроенный просмотр PDF.
+        </p>
+        <a class="btn btn-primary" href="books/tsar-kor.pdf" target="_blank"
+           data-ru="Открыть PDF в новой вкладке"
+           data-en="Open PDF in new tab"
+           data-fi="Avaa PDF uudessa välilehdessä">
+           Открыть PDF в новой вкладке
+        </a>
+      </div>
+    </iframe>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ГАЛЕРЕЯ — как вставить свои картинки
+
+     ИНСТРУКЦИЯ:
+     1. Создайте папку images/ рядом с index.html
+     2. Закиньте туда свои картинки (желательно .jpg или .webp)
+     3. Ниже в блоке .gallery-grid скопируйте блок .gallery-item
+     4. В <img src="..."> укажите путь: images/vasha-kartinka.jpg
+     5. В .gallery-caption напишите подпись
+
+     ПРИМЕР добавления одной картинки:
+
+     <div class="gallery-item" onclick="openLightbox(3)">
+       <img src="images/moya-kartinka.jpg" alt="Описание">
+       <div class="gallery-caption">Моя подпись</div>
+     </div>
+
+     Не забудьте добавить путь в массив galleryImages в JS ниже!
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="gallery-section" id="gallery">
+  <div class="section-header">
+    <h2 class="section-title" data-ru="Галерея" data-en="Gallery" data-fi="Galleria">Галерея</h2>
+  </div>
+  <div class="gallery-grid">
+    <!-- Пример 1: замените src на путь к своей картинке -->
+    <div class="gallery-item" onclick="openLightbox(0)">
+      <img src="images/placeholder-1.jpg" alt="Пример 1">
+      <div class="gallery-caption" data-ru="Пример изображения 1 — замените на свою картинку"
+           data-en="Sample image 1 — replace with your own"
+           data-fi="Esimerkkikuva 1 — korvaa omallasi">
+           Пример изображения 1 — замените на свою картинку
+      </div>
+    </div>
+    <!-- Пример 2 -->
+    <div class="gallery-item" onclick="openLightbox(1)">
+      <img src="images/placeholder-2.jpg" alt="Пример 2">
+      <div class="gallery-caption" data-ru="Пример изображения 2 — замените на свою картинку"
+           data-en="Sample image 2 — replace with your own"
+           data-fi="Esimerkkikuva 2 — korvaa omallasi">
+           Пример изображения 2 — замените на свою картинку
+      </div>
+    </div>
+    <!-- Пример 3 -->
+    <div class="gallery-item" onclick="openLightbox(2)">
+      <img src="images/placeholder-3.jpg" alt="Пример 3">
+      <div class="gallery-caption" data-ru="Пример изображения 3 — замените на свою картинку"
+           data-en="Sample image 3 — replace with your own"
+           data-fi="Esimerkkikuva 3 — korvaa omallasi">
+           Пример изображения 3 — замените на свою картинку
+      </div>
+    </div>
+    <!-- Пример 4 -->
+    <div class="gallery-item" onclick="openLightbox(3)">
+      <img src="images/placeholder-4.jpg" alt="Пример 4">
+      <div class="gallery-caption" data-ru="Пример изображения 4 — замените на свою картинку"
+           data-en="Sample image 4 — replace with your own"
+           data-fi="Esimerkkikuva 4 — korvaa omallasi">
+           Пример изображения 4 — замените на свою картинку
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX — модальное окно для просмотра картинок -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox(event)">×</button>
+  <button class="lightbox-prev" onclick="changeImage(-1)">‹</button>
+  <button class="lightbox-next" onclick="changeImage(1)">›</button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
+<section class="list-section" id="catalog">
+  <div class="section-header">
+    <h2 class="section-title" data-ru="Каталог" data-en="Catalog" data-fi="Luettelo">Каталог</h2>
+    <span class="section-more" data-ru="Архив →" data-en="Archive →" data-fi="Arkisto →">Архив →</span>
+  </div>
+
+  <div class="book-row" data-people="марийцы">
+    <span class="book-num">01</span>
+    <div class="book-info">
+      <h4 data-ru="Грамматика марийского языка" data-en="Grammar of the Mari language" data-fi="Marin kielen kielioppi">Грамматика марийского языка</h4>
+      <div class="book-meta">Иванов И.И. · 2019 · <span data-ru="Русский" data-en="Russian" data-fi="Venäjä">Русский</span> · <span data-ru="Учебник" data-en="Textbook" data-fi="Oppikirja">Учебник</span></div>
+      <div class="book-tags">
+        <span class="book-tag people">марийцы</span>
+        <span class="book-tag" data-ru="грамматика" data-en="grammar" data-fi="kielioppi">грамматика</span>
+        <span class="book-tag" data-ru="учебник" data-en="textbook" data-fi="oppikirja">учебник</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="book-row" data-people="удмурты">
+    <span class="book-num">02</span>
+    <div class="book-info">
+      <h4 data-ru="Удмуртский фольклор: сборник" data-en="Udmurt folklore: collection" data-fi="Udmurttilainen kansanperinne: kokoelma">Удмуртский фольклор: сборник</h4>
+      <div class="book-meta">Петрова А.М. · 2017 · <span data-ru="Русский" data-en="Russian" data-fi="Venäjä">Русский</span> · <span data-ru="Сборник" data-en="Collection" data-fi="Kokoelma">Сборник</span></div>
+      <div class="book-tags">
+        <span class="book-tag people">удмурты</span>
+        <span class="book-tag" data-ru="фольклор" data-en="folklore" data-fi="kansanperinne">фольклор</span>
+        <span class="book-tag" data-ru="эпос" data-en="epic" data-fi="eepos">эпос</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="book-row" data-people="саами">
+    <span class="book-num">03</span>
+    <div class="book-info">
+      <h4>Saami Shamanism and Traditional Knowledge</h4>
+      <div class="book-meta">Rydving H. · 2019 · English · <span data-ru="Монография" data-en="Monograph" data-fi="Monografia">Монография</span></div>
+      <div class="book-tags">
+        <span class="book-tag people">саами</span>
+        <span class="book-tag" data-ru="шаманизм" data-en="shamanism" data-fi="šamanismi">шаманизм</span>
+        <span class="book-tag" data-ru="этнография" data-en="ethnography" data-fi="etnografia">этнография</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="book-row" data-people="коми">
+    <span class="book-num">04</span>
+    <div class="book-info">
+      <h4 data-ru="Коми-пермяцкие народные сказки" data-en="Komi-Permyak folk tales" data-fi="Komi-permjakkilaiset kansansadut">Коми-пермяцкие народные сказки</h4>
+      <div class="book-meta"><span data-ru="Сборник" data-en="Collection" data-fi="Kokoelma">Сборник</span> · 2015 · <span data-ru="Русский" data-en="Russian" data-fi="Venäjä">Русский</span> · <span data-ru="Перевод" data-en="Translation" data-fi="Käännös">Перевод</span></div>
+      <div class="book-tags">
+        <span class="book-tag people">коми</span>
+        <span class="book-tag" data-ru="сказки" data-en="tales" data-fi="sadut">сказки</span>
+        <span class="book-tag" data-ru="перевод" data-en="translation" data-fi="käännös">перевод</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="book-row" data-people="мордва">
+    <span class="book-num">05</span>
+    <div class="book-info">
+      <h4>Erzya-Moksha Languages: A Comparative Study</h4>
+      <div class="book-meta">Rueter J. · 2021 · English · <span data-ru="Монография" data-en="Monograph" data-fi="Monografia">Монография</span></div>
+      <div class="book-tags">
+        <span class="book-tag people">мордва</span>
+        <span class="book-tag" data-ru="лингвистика" data-en="linguistics" data-fi="kielitiede">лингвистика</span>
+        <span class="book-tag" data-ru="сравнительное" data-en="comparative" data-fi="vertaileva">сравнительное</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="book-row" data-people="венгры">
+    <span class="book-num">06</span>
+    <div class="book-info">
+      <h4 data-ru="Венгерская грамматика в таблицах" data-en="Hungarian grammar in tables" data-fi="Unkarin kielioppi taulukoissa">Венгерская грамматика в таблицах</h4>
+      <div class="book-meta">Ковач Б. · 2018 · <span data-ru="Русский" data-en="Russian" data-fi="Venäjä">Русский</span> · <span data-ru="Учебник" data-en="Textbook" data-fi="Oppikirja">Учебник</span></div>
+      <div class="book-tags">
+        <span class="book-tag people">венгры</span>
+        <span class="book-tag" data-ru="грамматика" data-en="grammar" data-fi="kielioppi">грамматика</span>
+        <span class="book-tag" data-ru="учебник" data-en="textbook" data-fi="oppikirja">учебник</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="book-row" data-people="финны">
+    <span class="book-num">07</span>
+    <div class="book-info">
+      <h4>Finnish Folk Poetry: Epic</h4>
+      <div class="book-meta">Honko L. · 2016 · English · <span data-ru="Антология" data-en="Anthology" data-fi="Antologia">Антология</span></div>
+      <div class="book-tags">
+        <span class="book-tag people">финны</span>
+        <span class="book-tag">Калевала</span>
+        <span class="book-tag" data-ru="эпос" data-en="epic" data-fi="eepos">эпос</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <svg class="star-icon" style="width:18px;height:18px;opacity:0.5;margin-bottom:8px;">
+    <use href="#udmurt-star"/>
+  </svg>
+  <div>Bjarmkirja · <span data-ru="Финно-угорская библиотека" data-en="Finno-Ugric Library" data-fi="Suomalais-ugrilainen kirjasto">Финно-угорская библиотека</span> · 2026</div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ (RU / EN / FI)
+   ═══════════════════════════════════════════════════════════════ */
+function setLang(lang, btn) {
+  // Обновляем активную кнопку
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  // Меняем атрибут lang у <html>
+  document.documentElement.lang = lang;
+
+  // Переводим все элементы с data-ru / data-en / data-fi
+  document.querySelectorAll('[data-ru][data-en][data-fi]').forEach(el => {
+    const text = el.getAttribute('data-' + lang);
+    if (text) {
+      // Если внутри есть HTML-теги — используем innerHTML, иначе textContent
+      if (text.includes('<')) {
+        el.innerHTML = text;
+      } else {
+        el.textContent = text;
+      }
+    }
+  });
+
+  // Переводим placeholder у input
+  document.querySelectorAll('input[data-ru-placeholder]').forEach(input => {
+    const ph = input.getAttribute('data-' + lang + '-placeholder');
+    if (ph) input.placeholder = ph;
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ФИЛЬТР НАРОДОВ
+   ═══════════════════════════════════════════════════════════════ */
+function filter(people, btn) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.book-row').forEach(row => {
+    row.style.display = (people === 'all' || row.dataset.people === people) ? 'flex' : 'none';
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ГАЛЕРЕЯ — LIGHTBOX
+
+   Чтобы добавить свою картинку:
+   1. Закиньте файл в папку images/
+   2. Добавьте блок .gallery-item в HTML (см. комментарий выше)
+   3. Добавьте путь и подпись в массив galleryImages ниже
+   ═══════════════════════════════════════════════════════════════ */
+const galleryImages = [
+  { src: 'images/placeholder-1.jpg', caption: 'Пример 1' },
+  { src: 'images/placeholder-2.jpg', caption: 'Пример 2' },
+  { src: 'images/placeholder-3.jpg', caption: 'Пример 3' },
+  { src: 'images/placeholder-4.jpg', caption: 'Пример 4' }
+  // Добавляйте свои картинки сюда:
+  // { src: 'images/moya-kartinka.jpg', caption: 'Моя картинка' },
+];
+
+let currentImage = 0;
+
+function openLightbox(index) {
+  currentImage = index;
+  const box = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  const cap = document.getElementById('lightbox-caption');
+  img.src = galleryImages[index].src;
+  cap.textContent = galleryImages[index].caption;
+  box.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox(e) {
+  if (e && e.target !== e.currentTarget && !e.target.classList.contains('lightbox-close')) return;
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function changeImage(dir) {
+  currentImage += dir;
+  if (currentImage < 0) currentImage = galleryImages.length - 1;
+  if (currentImage >= galleryImages.length) currentImage = 0;
+  document.getElementById('lightbox-img').src = galleryImages[currentImage].src;
+  document.getElementById('lightbox-caption').textContent = galleryImages[currentImage].caption;
+}
+
+// Закрытие по Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') changeImage(-1);
+  if (e.key === 'ArrowRight') changeImage(1);
+});
+</script>
+
+</body>
+</html>
