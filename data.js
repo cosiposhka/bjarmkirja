@@ -31,6 +31,7 @@ const DB = {
       description: "Описание",
       close: "Закрыть",
       openInBrowser: "Открыть в браузере",
+      selectVersion: "Выберите версию",
       komi: "Народ коми"
     },
     fi: {
@@ -64,6 +65,7 @@ const DB = {
       description: "Kuvaus",
       close: "Sulje",
       openInBrowser: "Avaa selaimessa",
+      selectVersion: "Valitse versio",
       komi: "Komin kansa"
     },
     en: {
@@ -97,6 +99,7 @@ const DB = {
       description: "Description",
       close: "Close",
       openInBrowser: "Open in browser",
+      selectVersion: "Select version",
       komi: "Komi people"
     },
     et: {
@@ -130,6 +133,7 @@ const DB = {
       description: "Kirjeldus",
       close: "Sulge",
       openInBrowser: "Ava brauseris",
+      selectVersion: "Vali versioon",
       komi: "Komi rahvas"
     }
   },
@@ -156,38 +160,19 @@ const DB = {
       },
       author: { ru: "Народ коми", fi: "Komin kansa", en: "Komi people", et: "Komi rahvas" },
       category: "predanie",
-      file: "books/tsar-kor.pdf",
+      files: {
+        ru: "books/tsar-kor.pdf",
+        en: "books/tsar-korEN.pdf"
+      },
       cover: null,
       description: {
-        ru: "Древнее предание народа коми о могущественном царе Коре, правившем в северных землях.",
-        fi: "Komin kansan muinainen perinne mahtavasta Tsar Korista.",
-        en: "Ancient legend of the Komi people about the mighty Tsar Kor.",
-        et: "Komi rahva muistne legend võimsast Tsar Korist."
+        ru: "Древнее предание народа коми о могущественном царе Коре, правившем в северных землях. Доступно на русском и английском языках.",
+        fi: "Komin kansan muinainen perinne mahtavasta Tsar Korista. Saatavilla venäjäksi ja englanniksi.",
+        en: "Ancient legend of the Komi people about the mighty Tsar Kor. Available in Russian and English.",
+        et: "Komi rahva muistne legend võimsast Tsar Korist. Saadaval vene ja inglise keeles."
       },
       featured: true,
-      contentLang: ["ru"]
-    },
-    {
-      id: "tsar-kor-en",
-      type: "book",
-      title: {
-        ru: "Царь Коръ (English)",
-        fi: "Tsar Kor (English)",
-        en: "Tsar Kor",
-        et: "Tsar Kor (English)"
-      },
-      author: { ru: "Народ коми", fi: "Komin kansa", en: "Komi people", et: "Komi rahvas" },
-      category: "predanie",
-      file: "books/tsar-korEN.pdf",
-      cover: null,
-      description: {
-        ru: "Английский перевод предания о Царе Коре.",
-        fi: "Tsar Korin perinteen englanninkielinen käännös.",
-        en: "English translation of the legend of Tsar Kor.",
-        et: "Tsar Kori legendi ingliskeelne tõlge."
-      },
-      featured: false,
-      contentLang: ["en"]
+      contentLang: ["ru", "en"]
     },
     {
       id: "biarmia",
@@ -200,13 +185,13 @@ const DB = {
       },
       author: { ru: "К. Ф. Жаков", fi: "K. F. Zhakov", en: "K. F. Zhakov", et: "K. F. Zhakov" },
       category: "history",
-      file: "books/Biarmiia - Kallistrat Falalieievich Zhakov.pdf",
+      files: { ru: "books/Biarmiia - Kallistrat Falalieievich Zhakov.pdf" },
       cover: null,
       description: {
         ru: "Исследование древней Биармии — исторической области на севере Европы, населённой финно-угорскими племенами.",
-        fi: "Tutkimus muinaisesta Biarmiasta — Pohjois-Euroopan historiallisesta alueesta, jota asuttivat suomalais-ugrilaiset heimot.",
+        fi: "Tutkimus muinaisesta Biarmiasta.",
         en: "Study of ancient Biarmia — a historical region in Northern Europe inhabited by Finno-Ugric tribes.",
-        et: "Uuring muistsest Biarmiast — Põhja-Euroopa ajaloolisest piirkonnast, mida asustasid soome-ugri hõimud."
+        et: "Uuring muistsest Biarmiast."
       },
       featured: true,
       contentLang: ["ru"]
@@ -222,7 +207,7 @@ const DB = {
       },
       author: { ru: "—", fi: "—", en: "—", et: "—" },
       category: "history",
-      file: "books/nasever.pdf",
+      files: { ru: "books/nasever.pdf" },
       cover: null,
       description: {
         ru: "Путешествие на север в поисках Памом Бур-Мортом.",
