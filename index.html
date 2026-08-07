@@ -11,7 +11,56 @@
   .star-hero { width: 64px; height: 64px; fill: #c41e1e; margin-bottom: 20px; filter: drop-shadow(0 0 12px rgba(196,30,30,0.3)); }
   .site-header { background: #1a1a1a; color: #fff; }
   .header-top { display: flex; justify-content: space-between; align-items: center; padding: 16px 48px; border-bottom: 1px solid #333; flex-wrap: wrap; gap: 12px; }
-  .logo-block { display: flex; align-items: center; gap: 14px; }
+  .logo-block { display: flex; align-items: center; gap: 14px; }<!DOCTYPE html>
+<html lang="ru"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bjarmkirja — Финно-угорская библиотека</title><meta name="description" content="Bjarmkirja — финно-угорская библиотека: книги, статьи и исследования о народах Севера."><meta name="robots" content="index,follow">
+<link rel="stylesheet" href="style.css"></head><body>
+<header class="site-header">
+  <div class="header-top">
+    <a href="index.html" class="logo-block" style="text-decoration:none">
+      <div style="font-size:28px;color:#c41e1e">✦</div>
+      <div><div class="logo-text">Bjarmkirja</div><div class="logo-sub" data-ru="Финно-угорская библиотека" data-en="Finno-Ugric Library" data-fi="Suomalais-ugrilainen kirjasto" data-et="Soome-ugri raamatukogu" data-pom="Финно-угорская библиотека">Финно-угорская библиотека</div></div>
+    </a>
+    <nav class="nav-links">
+      <a href="komi.html" data-ru="Коми" data-en="Komi" data-fi="Komi" data-et="Komi" data-pom="Коми">Коми</a>
+      <a href="articles.html" data-ru="Статьи" data-en="Articles" data-fi="Artikkelit" data-et="Artiklid" data-pom="Статьи">Статьи</a>
+      <a href="favorites.html" data-ru="Избранное" data-en="Featured" data-fi="Suosikit" data-et="Valitud" data-pom="Избранное">Избранное</a>
+      <a href="index.html#gallery" data-ru="Галерея" data-en="Gallery" data-fi="Galleria" data-et="Galerii" data-pom="Галерея">Галерея</a>
+    </nav>
+    <div class="lang-switch"><button class="lang-btn" data-lang="ru" onclick="setLang('ru',this)">RU</button><button class="lang-btn" data-lang="en" onclick="setLang('en',this)">EN</button><button class="lang-btn" data-lang="fi" onclick="setLang('fi',this)">FI</button><button class="lang-btn" data-lang="et" onclick="setLang('et',this)">ET</button><button class="lang-btn" data-lang="pom" onclick="setLang('pom',this)">POM</button></div>
+  </div>
+</header>
+
+<section class="hero"><h1>Bjarmkirja</h1>
+<p class="tagline" data-ru="Собрание книг, статей и исследований о народах Севера" data-en="Collection of books, articles and research on the peoples of the North" data-fi="Kirjojen, artikkelien ja tutkimusten kokoelma Pohjan kansoista" data-et="Raamatute, artiklite ja uurimuste kogumik Põhja rahvastest" data-pom="Собрание книг, статей да исследований о народах Севера">Собрание книг, статей и исследований о народах Севера</p>
+<div class="search-box"><input id="siteSearch" type="text" data-ru-placeholder="Поиск по названию, автору или народу..." data-en-placeholder="Search by title, author or people..." data-fi-placeholder="Hae otsikon, tekijän tai kansan mukaan..." data-et-placeholder="Otsi pealkirja, autori või rahva järgi..." data-pom-placeholder="Поиск по названию, автору или народу..." placeholder="Поиск по названию, автору или народу..."></div></section>
+<div class="stats-bar"><div><div class="stat-num">4</div><div class="stat-label">Материала</div></div><div><div class="stat-num">3</div><div class="stat-label">Народа</div></div><div><div class="stat-num">5</div><div class="stat-label">Языков</div></div></div>
+
+<section class="featured-section"><div class="section-header"><h2 class="section-title" data-ru="Избранное" data-en="Featured" data-fi="Suosikit" data-et="Valitud" data-pom="Избранное">Избранное</h2><a class="section-more" href="favorites.html">Все →</a></div>
+<div class="featured-grid">
+<a class="feat-card" href="book-biarmia.html" style="text-decoration:none"><img src="images/biarmia.jpg" alt="Биармия"><div class="feat-content"><div class="label">Коми · Монография</div><h3>Биармия</h3><p>К.Ф. Жаков</p></div></a>
+<a class="feat-card" href="book-tsar-kor.html" style="text-decoration:none"><img src="images/kor.jpg" alt="Царь Коръ"><div class="feat-content"><div class="label">Коми · Эпос · 1911</div><h3>Царь Коръ</h3><p>Чердынское предание. Калистрат Фалеевич Жаков.</p></div></a>
+<a class="feat-card" href="book-nasever.html" style="text-decoration:none"><img src="images/nasever.jpg" alt="На север"><div class="feat-content"><div class="label">Коми · Путевые заметки</div><h3>На север</h3><p>К.Ф. Жаков</p></div></a>
+</div></section>
+
+<section class="book-section"><div class="section-header"><h2 class="section-title" data-ru="Редкие издания" data-en="Rare editions" data-fi="Harvinaiset painokset" data-et="Haruldased väljaanded" data-pom="Редкие издания">Редкие издания</h2><a class="section-more" href="komi.html">Коми →</a></div>
+<div class="book-list">
+<a class="book-card" href="book-biarmia.html" style="text-decoration:none"><div class="book-cover"><img src="images/biarmia.jpg" alt="Биармия"></div><div class="book-details"><h3>Биармия</h3><div class="book-year">Монография · Автор: Калистрат Фалеевич Жаков</div><p>Исследование древней Биармии.</p><span class="btn btn-primary">📖 Читать</span></div></a>
+<a class="book-card" href="book-tsar-kor.html" style="text-decoration:none"><div class="book-cover"><img src="images/kor.jpg" alt="Царь Коръ"></div><div class="book-details"><h3>Царь Коръ</h3><div class="book-year">Чердынское предание · 1911 · Автор: Калистрат Фалеевич Жаков</div><p>Редкое издание 1911 года.</p><span class="btn btn-primary">📖 Читать</span></div></a>
+<a class="book-card" href="book-nasever.html" style="text-decoration:none"><div class="book-cover"><img src="images/nasever.jpg" alt="На север"></div><div class="book-details"><h3>На север въ поискахъ Памомъ Буръ-Мортомъ</h3><div class="book-year">Путевые заметки · Автор: Калистрат Фалеевич Жаков</div><p data-ru="Записки путешествия на север в поисках Пам Бур Морта сына Пама Сотни. Автор Калистрат Фалеевич Жаков." data-en="Travel notes to the north in search of Pam Bur Mort, son of Pam Sotni. By Kallistrat Falalieievich Zhakov." data-fi="Matkamuistiinpanot pohjoiseen Pam Bur Mortin, Pam Sotnin pojan, etsinnässä. Kirjoittaja Kallistrat Falalieievich Zhakov." data-et="Reisimärkmed põhja Pam Bur Morti, Pam Sotni poja, otsingul. Autor Kallistrat Falalieievich Zhakov." data-pom="Записки путешествия на север в поисках Пам Бур Морта сына Пама Сотни. Автор Калистрат Фалеевич Жаков.">Записки путешествия на север в поисках Пам Бур Морта сына Пама Сотни. Автор Калистрат Фалеевич Жаков.</p><span class="btn btn-primary">📖 Читать</span></div></a>
+</div></section>
+
+<section class="article-section"><div class="section-header"><h2 class="section-title">Статьи</h2><a class="section-more" href="articles.html">Все →</a></div>
+<a class="article-card" href="article-komiles.html" style="display:block;text-decoration:none"><h3>Коми-пермяцкий уход в лес — пиратские базы, сектанты и лесные братья</h3><div class="article-meta">История · Коми-пермяцкий край · XX век</div><img class="article-img" src="images/Komiles.jpg" alt="Коми-пермяцкий уход в лес"></a></section>
+
+<section class="gallery-section" id="gallery"><div class="section-header"><h2 class="section-title">Галерея</h2></div><div class="gallery-grid">
+<div class="gallery-item"><img src="images/mannergeim.png" alt="Carl Gustaf Emil Mannerheim"><div class="gallery-caption">Carl Gustaf Emil Mannerheim</div></div>
+<div class="gallery-item"><img src="images/eestisport.jpg" alt="Eesti sport"><div class="gallery-caption">Eesti sport</div></div>
+<div class="gallery-item"><img src="images/varag.jpg" alt="Uhkuinik"><div class="gallery-caption">Uhkuinik</div></div>
+</div></section>
+<script>document.addEventListener('DOMContentLoaded',()=>{const i=document.getElementById('siteSearch');i.addEventListener('input',()=>{const q=i.value.toLowerCase().trim();document.querySelectorAll('.book-card,.feat-card,.article-card').forEach(e=>e.style.display=!q||e.innerText.toLowerCase().includes(q)?'':'none')})});</script>
+<footer class="site-footer">Bjarmkirja · <span data-ru="Финно-угорская библиотека" data-en="Finno-Ugric Library" data-fi="Suomalais-ugrilainen kirjasto" data-et="Soome-ugri raamatukogu" data-pom="Финно-угорская библиотека">Финно-угорская библиотека</span> · 2026</footer><script src="script.js"></script></body></html>
   .logo-text { font-size: 20px; letter-spacing: 3px; text-transform: uppercase; color: #f0ebe3; }
   .logo-sub { font-size: 10px; color: #8b7355; letter-spacing: 4px; text-transform: uppercase; }
   .nav-links { display: flex; gap: 32px; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; font-family: sans-serif; }
