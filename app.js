@@ -112,6 +112,7 @@ function renderCard(item) {
   const author = getVal(item.author);
   const desc = getVal(item.description);
   const typeLabel = item.type === 'book' ? t('books') : item.type;
+  const langs = item.contentLang ? item.contentLang.map(l => l.toUpperCase()).join(' · ') : '';
 
   return `
     <div class="card" onclick="goTo('${item.type}', '${item.id}')">
@@ -121,7 +122,7 @@ function renderCard(item) {
       </div>
       <div class="card-body">
         <div class="card-title">${title}</div>
-        <div class="card-meta">${author} · ${t(item.category)}</div>
+        <div class="card-meta">${author} · ${t(item.category)}${langs ? ' · ' + langs : ''}</div>
         <div class="card-desc">${desc}</div>
         <div class="card-footer">
           <span class="card-btn primary">${item.type === 'book' ? t('read') : t('view')}</span>
@@ -184,8 +185,64 @@ function renderDetail(type, id) {
   const desc = getVal(item.description);
   const isImage = type === 'image';
   const isBook = type === 'book';
-  const isArticle = type === 'article';
-  const isPdf = item.file && item.file.toLowerCase().endsWith('.pdf');
+
+  // Для книг с несколькими файлами — показываем выбор версии
+  let fileButtons = '';
+  let viewerContent = '';
+
+  if (isBook && item.files) {
+    const langs = Object.keys(item.files);
+    if (langs.length > 1) {
+      fileButtons = `
+        <div class="version-selector">
+          <span class="version-label">${t('selectVersion')}:</span>
+          <div class="version-btns">
+            ${langs.map(l => `
+              <button class="version-btn ${l === state.lang ? 'active' : ''}" 
+                onclick="selectVersion('${item.id}', '${l}')">${l.toUpperCase()}</button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+    // По умолчанию показываем версию на текущем языке, или первую доступную
+    const defaultLang = item.files[state.lang] ? state.lang : langs[0];
+    const defaultFile = item.files[defaultLang];
+    viewerContent = `<iframe src="${defaultFile}" id="book-viewer" title="${title}" style="width:100%;min-height:800px;border:none;border-radius:8px;"></iframe>`;
+  } else if (isImage) {
+    viewerContent = `<img src="${item.file}" alt="${title}" style="max-width:100%; border-radius:8px;">`;
+  } else {
+    viewerContent = `<iframe src="${item.file}" title="${title}" style="width:100%;min-height:600px;border:none;border-radius:8px;"></iframe>`;
+  }
+
+  // Кнопки действий
+  let actionButtons = '';
+  if (isBook && item.files) {
+    const langs = Object.keys(item.files);
+    actionButtons = `
+      <div class="detail-actions" id="detail-actions">
+        ${langs.map(l => `
+          <a href="${item.files[l]}" target="_blank" class="detail-btn primary lang-action-${l}" 
+            style="${l !== (item.files[state.lang] ? state.lang : langs[0]) ? 'display:none;' : ''}">
+            ${t('openInBrowser')} (${l.toUpperCase()})
+          </a>
+          <a href="${item.files[l]}" download class="detail-btn secondary lang-action-${l}" 
+            style="${l !== (item.files[state.lang] ? state.lang : langs[0]) ? 'display:none;' : ''}">
+            ${t('download')} (${l.toUpperCase()})
+          </a>
+        `).join('')}
+      </div>
+    `;
+  } else if (isImage) {
+    actionButtons = `<div class="detail-actions"><a href="${item.file}" download class="detail-btn primary">${t('download')}</a></div>`;
+  } else {
+    actionButtons = `
+      <div class="detail-actions">
+        <a href="${item.file}" target="_blank" class="detail-btn primary">${t('openInBrowser')}</a>
+        <a href="${item.file}" download class="detail-btn secondary">${t('download')}</a>
+      </div>
+    `;
+  }
 
   return `
     <main class="main detail-page">
@@ -200,25 +257,36 @@ function renderDetail(type, id) {
           ${item.contentLang ? `<span>🌐 ${item.contentLang.map(l => l.toUpperCase()).join(', ')}</span>` : ''}
         </div>
         <p class="detail-desc">${desc}</p>
-        <div class="detail-actions">
-          ${isImage 
-            ? `<a href="${item.file}" download class="detail-btn primary">${t('download')}</a>`
-            : `<a href="${item.file}" target="_blank" class="detail-btn primary">${t('openInBrowser')}</a>
-               <a href="${item.file}" download class="detail-btn secondary">${t('download')}</a>`
-          }
-        </div>
+        ${fileButtons}
+        ${actionButtons}
       </div>
 
-      <div class="content-viewer">
-        ${isImage 
-          ? `<img src="${item.file}" alt="${title}" style="max-width:100%; border-radius:8px;">`
-          : isPdf
-            ? `<iframe src="${item.file}" title="${title}" style="width:100%;min-height:800px;border:none;border-radius:8px;"></iframe>`
-            : `<iframe src="${item.file}" title="${title}" style="width:100%;min-height:600px;border:none;border-radius:8px;"></iframe>`
-        }
+      <div class="content-viewer" id="content-viewer">
+        ${viewerContent}
       </div>
     </main>
   `;
+}
+
+// ===== SELECT VERSION (for multi-language books) =====
+function selectVersion(bookId, lang) {
+  const book = DB.books.find(b => b.id === bookId);
+  if (!book || !book.files[lang]) return;
+
+  // Обновляем iframe
+  const viewer = document.getElementById('book-viewer');
+  if (viewer) viewer.src = book.files[lang];
+
+  // Обновляем кнопки
+  document.querySelectorAll('.version-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
+  });
+
+  // Показываем/скрываем кнопки действий
+  document.querySelectorAll('[class*="lang-action-"]').forEach(btn => {
+    const btnLang = btn.className.match(/lang-action-([a-z]+)/)?.[1];
+    btn.style.display = btnLang === lang ? 'inline-flex' : 'none';
+  });
 }
 
 // ===== ACTIONS =====
