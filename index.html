@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bjarmkirja — Финно-угорская библиотека</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="#/" class="logo-group">
+        <!-- Восьмиконечная звезда (как на флаге Удмуртии) -->
+        <svg class="logo-star" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="50,0 61,35 98,35 68,57 79,91 50,70 21,91 32,57 2,35 39,35" 
+            fill="#b91c1c" stroke="#1a1a1a" stroke-width="2"/>
+        </svg>
+        <div class="logo-text">
+          <span class="logo-name">Bjarmkirja</span>
+          <span class="logo-tagline">Финно-угорская библиотека</span>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="#/" class="nav-btn active" onclick="setActiveNav(this)">Главная</a>
+      </nav>
+
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
+        <button class="lang-btn" data-lang="fi" onclick="setLang('fi')">FI</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" data-lang="et" onclick="setLang('et')">ET</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="app"></div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>© 2026 Bjarmkirja — Финно-угорская библиотека</p>
+      <p style="margin-top:4px; font-size:12px;">Народ коми · Komi people · Komin kansa · Komi rahvas</p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    function setActiveNav(el) {
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+    }
+  </script>
+</body>
+</html>
