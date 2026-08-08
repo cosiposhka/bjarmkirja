@@ -33,11 +33,8 @@ const DB = {
       openInBrowser: "Открыть в браузере",
       selectVersion: "Выберите версию",
       aiTranslated: "Переведено с помощью ИИ",
-      theme: "Тема",
-      light: "Светлая",
-      dark: "Тёмная",
-      lastAdded: "Последнее",
-      showAll: "Показать все",
+      catalogBooks: "Каталог книг",
+      catalogArticles: "Каталог статей",
       komi: "Народ коми"
     },
     fi: {
@@ -73,11 +70,8 @@ const DB = {
       openInBrowser: "Avaa selaimessa",
       selectVersion: "Valitse versio",
       aiTranslated: "Käännetty tekoälyn avulla",
-      theme: "Teema",
-      light: "Vaalea",
-      dark: "Tumma",
-      lastAdded: "Viimeksi lisätty",
-      showAll: "Näytä kaikki",
+      catalogBooks: "Kirjaluettelo",
+      catalogArticles: "Artikkeliluettelo",
       komi: "Komin kansa"
     },
     en: {
@@ -113,11 +107,8 @@ const DB = {
       openInBrowser: "Open in browser",
       selectVersion: "Select version",
       aiTranslated: "Translated with AI",
-      theme: "Theme",
-      light: "Light",
-      dark: "Dark",
-      lastAdded: "Recently added",
-      showAll: "Show all",
+      catalogBooks: "Book Catalog",
+      catalogArticles: "Article Catalog",
       komi: "Komi people"
     },
     et: {
@@ -153,11 +144,8 @@ const DB = {
       openInBrowser: "Ava brauseris",
       selectVersion: "Vali versioon",
       aiTranslated: "Tõlgitud tehisintellekti abil",
-      theme: "Teema",
-      light: "Hele",
-      dark: "Tume",
-      lastAdded: "Viimati lisatud",
-      showAll: "Kuva kõik",
+      catalogBooks: "Raamatukataloog",
+      catalogArticles: "Artiklikataloog",
       komi: "Komi rahvas"
     }
   },
@@ -190,10 +178,10 @@ const DB = {
       },
       cover: "images/kor.jpg",
       description: {
-        ru: "Древнее предание народа коми о могущественном царе Коре, правившем в северных землях. Доступно на русском и английском языках.",
-        fi: "Komin kansan muinainen perinne mahtavasta Tsar Korista. Saatavilla venäjäksi ja englanniksi.",
-        en: "Ancient legend of the Komi people about the mighty Tsar Kor. Available in Russian and English.",
-        et: "Komi rahva muistne legend võimsast Tsar Korist. Saadaval vene ja inglise keeles."
+        ru: "Древнее предание народа коми о могущественном царе Коре, правившем в северных землях.",
+        fi: "Komin kansan muinainen perinne mahtavasta Tsar Korista.",
+        en: "Ancient legend of the Komi people about the mighty Tsar Kor.",
+        et: "Komi rahva muistne legend võimsast Tsar Korist."
       },
       featured: true,
       contentLang: ["ru", "en"],
@@ -245,6 +233,121 @@ const DB = {
       featured: true,
       contentLang: ["ru"],
       date: "2024-06-10"
+    },
+    {
+      id: "uivemskih",
+      type: "book",
+      title: {
+        ru: "У инвенских пермяков Бирюк Соликам уезда",
+        fi: "Inven permjakkojen Birjuk Solikamin piiristä",
+        en: "Biryuk of the Inva Permians of Solikamsk District",
+        et: "Inva permjakkide Birjuk Solikamski rajoonist"
+      },
+      author: { ru: "К. Ф. Жаков", fi: "K. F. Zhakov", en: "K. F. Zhakov", et: "K. F. Zhakov" },
+      category: "history",
+      files: { ru: "books/uivemskih.pdf" },
+      cover: "images/uivemskihpermjakov.jpg",
+      description: {
+        ru: "Исследование о Бирюке у инвенских пермяков Соликамского уезда.",
+        fi: "Tutkimus Birjukista Inven permjakkojen keskuudessa Solikamin piirissä.",
+        en: "Study of Biryuk among the Inva Permians of Solikamsk District.",
+        et: "Uuring Birjukist Inva permjakkide seas Solikamski rajoonis."
+      },
+      featured: false,
+      contentLang: ["ru"],
+      date: "2024-07-01"
+    },
+    {
+      id: "podshum",
+      type: "book",
+      title: {
+        ru: "Под шум северного ветра",
+        fi: "Pohjoisen tuulen huminan alla",
+        en: "Under the Howl of the Northern Wind",
+        et: "Põhjatuule kohina all"
+      },
+      author: { ru: "К. Ф. Жаков", fi: "K. F. Zhakov", en: "K. F. Zhakov", et: "K. F. Zhakov" },
+      category: "folklore",
+      files: { ru: "books/podshumsevernogovetra.pdf" },
+      cover: "images/podshumsevernogovetra.jpg",
+      description: {
+        ru: "Сборник произведений под шум северного ветра.",
+        fi: "Kokoelma teoksia pohjoisen tuulen huminan alla.",
+        en: "Collection of works under the howl of the northern wind.",
+        et: "Teoste kogumik põhjatuule kohina all."
+      },
+      featured: false,
+      contentLang: ["ru"],
+      date: "2024-07-15"
+    },
+    {
+      id: "mudripam",
+      type: "book",
+      title: {
+        ru: "Мудрый Пам",
+        fi: "Viisas Pam",
+        en: "Wise Pam",
+        et: "Tark Pam"
+      },
+      author: { ru: "К. Ф. Жаков", fi: "K. F. Zhakov", en: "K. F. Zhakov", et: "K. F. Zhakov" },
+      category: "fairy_tales",
+      files: { ru: "books/mudrijpam.pdf" },
+      cover: "images/mudripam.jpg",
+      description: {
+        ru: "Сказка о мудром Паме.",
+        fi: "Satu viisaasta Pamista.",
+        en: "Fairy tale about wise Pam.",
+        et: "Muinasjutt tarkast Pamist."
+      },
+      featured: false,
+      contentLang: ["ru"],
+      date: "2024-08-01"
+    },
+    {
+      id: "gramort",
+      type: "book",
+      title: {
+        ru: "Грамортъ на крайнемъ севере",
+        fi: "Gramort äärimmäisellä pohjoisella",
+        en: "Gramort in the Far North",
+        et: "Gramort äärmises põhjas"
+      },
+      author: { ru: "К. Ф. Жаков", fi: "K. F. Zhakov", en: "K. F. Zhakov", et: "K. F. Zhakov" },
+      category: "history",
+      files: { ru: "books/gramotnostnakrainemsevere.pdf" },
+      cover: null,
+      description: {
+        ru: "О Граморте на крайнем севере.",
+        fi: "Gramortista äärimmäisellä pohjoisella.",
+        en: "About Gramort in the far north.",
+        et: "Gramortist äärmises põhjas."
+      },
+      featured: false,
+      contentLang: ["ru"],
+      date: "2024-08-05"
+    },
+    {
+      id: "zolotaja",
+      type: "book",
+      title: {
+        ru: "I. Золотая сказка; II. Сказка серебрянная; III. Гулень на небе; IV. Бегство северных богов",
+        fi: "I. Kultainen satu; II. Hopeinen satu; III. Gulen taivaalla; IV. Pohjoisten jumalten pakomatka",
+        en: "I. The Golden Tale; II. The Silver Tale; III. Gullen in the Sky; IV. The Flight of the Northern Gods",
+        et: "I. Kulds muinasjutt; II. Hõbedane muinasjutt; III. Gulen taevas; IV. Põhja jumalate põgenemine"
+      },
+      author: { ru: "К. Ф. Жаков", fi: "K. F. Zhakov", en: "K. F. Zhakov", et: "K. F. Zhakov" },
+      category: "fairy_tales",
+      files: { ru: "books/zolotajaskazka.pdf" },
+      cover: "images/zolotaja.jpg",
+      description: {
+        ru: "Сборник сказок: Золотая сказка, Сказка серебрянная, Гулень на небе, Бегство северных богов.",
+        fi: "Satukokoelma: Kultainen satu, Hopeinen satu, Gulen taivaalla, Pohjoisten jumalten pakomatka.",
+        en: "Collection of fairy tales: The Golden Tale, The Silver Tale, Gullen in the Sky, The Flight of the Northern Gods.",
+        et: "Muinasjuttude kogumik: Kulds muinasjutt, Hõbedane muinasjutt, Gulen taevas, Põhja jumalate põgenemine."
+      },
+      featured: false,
+      contentLang: ["ru"],
+      date: "2024-08-10"
     }
   ],
 
