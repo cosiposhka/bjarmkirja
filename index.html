@@ -10,14 +10,17 @@
   <header class="header">
     <div class="header-inner">
       <a href="#/" class="logo-group">
-        <!-- Восьмиконечная финно-угорская звезда (этнический символ) -->
+        <!-- Солярный знак Удмуртии (белый) -->
         <svg class="logo-star" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <g fill="#D52B1E" stroke="#000000" stroke-width="1.5" stroke-linejoin="round">
-            <!-- 8 лучей звезды -->
-            <polygon points="50,2 56,38 92,20 62,44 98,50 62,56 92,80 56,62 50,98 44,62 8,80 38,56 2,50 38,44 8,20 44,38" />
-          </g>
-          <!-- Центр -->
-          <circle cx="50" cy="50" r="10" fill="#000000" />
+          <circle cx="50" cy="50" r="14" fill="#ffffff" stroke="#ffffff" stroke-width="1"/>
+          <rect x="46" y="6" width="8" height="24" fill="#ffffff" rx="1"/>
+          <rect x="46" y="70" width="8" height="24" fill="#ffffff" rx="1"/>
+          <rect x="6" y="46" width="24" height="8" fill="#ffffff" rx="1"/>
+          <rect x="70" y="46" width="24" height="8" fill="#ffffff" rx="1"/>
+          <path d="M 65 20 Q 80 35 80 50" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+          <path d="M 80 50 Q 80 65 65 80" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+          <path d="M 35 80 Q 20 65 20 50" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+          <path d="M 20 50 Q 20 35 35 20" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
         </svg>
         <div class="logo-text">
           <span class="logo-name">Bjarmkirja</span>
@@ -25,22 +28,21 @@
         </div>
       </a>
 
-      <div class="header-right">
-        <button class="theme-toggle" onclick="toggleTheme()" title="Тёмная/светлая тема">
-          <span class="theme-icon">🌓</span>
-        </button>
+      <nav class="header-nav" id="header-nav">
+        <a href="#/" class="nav-btn active" data-i18n="home">Главная</a>
+        <a href="#/catalog/books" class="nav-btn" data-i18n="catalogBooks">Каталог книг</a>
+        <a href="#/catalog/articles" class="nav-btn" data-i18n="catalogArticles">Каталог статей</a>
+      </nav>
 
-        <div class="lang-switcher">
-          <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
-          <button class="lang-btn" data-lang="fi" onclick="setLang('fi')">FI</button>
-          <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
-          <button class="lang-btn" data-lang="et" onclick="setLang('et')">ET</button>
-        </div>
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
+        <button class="lang-btn" data-lang="fi" onclick="setLang('fi')">FI</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" data-lang="et" onclick="setLang('et')">ET</button>
       </div>
     </div>
   </header>
 
-  <!-- Search bar вынесен отдельно, чтобы не терял фокус -->
   <div id="search-bar"></div>
 
   <div id="app"></div>
