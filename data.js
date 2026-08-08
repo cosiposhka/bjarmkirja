@@ -32,6 +32,12 @@ const DB = {
       close: "Закрыть",
       openInBrowser: "Открыть в браузере",
       selectVersion: "Выберите версию",
+      aiTranslated: "Переведено с помощью ИИ",
+      theme: "Тема",
+      light: "Светлая",
+      dark: "Тёмная",
+      lastAdded: "Последнее",
+      showAll: "Показать все",
       komi: "Народ коми"
     },
     fi: {
@@ -66,6 +72,12 @@ const DB = {
       close: "Sulje",
       openInBrowser: "Avaa selaimessa",
       selectVersion: "Valitse versio",
+      aiTranslated: "Käännetty tekoälyn avulla",
+      theme: "Teema",
+      light: "Vaalea",
+      dark: "Tumma",
+      lastAdded: "Viimeksi lisätty",
+      showAll: "Näytä kaikki",
       komi: "Komin kansa"
     },
     en: {
@@ -100,6 +112,12 @@ const DB = {
       close: "Close",
       openInBrowser: "Open in browser",
       selectVersion: "Select version",
+      aiTranslated: "Translated with AI",
+      theme: "Theme",
+      light: "Light",
+      dark: "Dark",
+      lastAdded: "Recently added",
+      showAll: "Show all",
       komi: "Komi people"
     },
     et: {
@@ -134,6 +152,12 @@ const DB = {
       close: "Sulge",
       openInBrowser: "Ava brauseris",
       selectVersion: "Vali versioon",
+      aiTranslated: "Tõlgitud tehisintellekti abil",
+      theme: "Teema",
+      light: "Hele",
+      dark: "Tume",
+      lastAdded: "Viimati lisatud",
+      showAll: "Kuva kõik",
       komi: "Komi rahvas"
     }
   },
@@ -158,13 +182,13 @@ const DB = {
         en: "Tsar Kor",
         et: "Tsar Kor"
       },
-      author: { ru: "Народ коми", fi: "Komin kansa", en: "Komi people", et: "Komi rahvas" },
+      author: { ru: "К. Ф. Жаков", fi: "K. F. Zhakov", en: "K. F. Zhakov", et: "K. F. Zhakov" },
       category: "predanie",
       files: {
         ru: "books/tsar-kor.pdf",
         en: "books/tsar-korEN.pdf"
       },
-      cover: null,
+      cover: "images/kor.jpg",
       description: {
         ru: "Древнее предание народа коми о могущественном царе Коре, правившем в северных землях. Доступно на русском и английском языках.",
         fi: "Komin kansan muinainen perinne mahtavasta Tsar Korista. Saatavilla venäjäksi ja englanniksi.",
@@ -172,7 +196,9 @@ const DB = {
         et: "Komi rahva muistne legend võimsast Tsar Korist. Saadaval vene ja inglise keeles."
       },
       featured: true,
-      contentLang: ["ru", "en"]
+      contentLang: ["ru", "en"],
+      date: "2024-01-15",
+      isAITranslated: true
     },
     {
       id: "biarmia",
@@ -186,7 +212,7 @@ const DB = {
       author: { ru: "К. Ф. Жаков", fi: "K. F. Zhakov", en: "K. F. Zhakov", et: "K. F. Zhakov" },
       category: "history",
       files: { ru: "books/Biarmiia - Kallistrat Falalieievich Zhakov.pdf" },
-      cover: null,
+      cover: "images/biarmia.jpg",
       description: {
         ru: "Исследование древней Биармии — исторической области на севере Европы, населённой финно-угорскими племенами.",
         fi: "Tutkimus muinaisesta Biarmiasta.",
@@ -194,7 +220,8 @@ const DB = {
         et: "Uuring muistsest Biarmiast."
       },
       featured: true,
-      contentLang: ["ru"]
+      contentLang: ["ru"],
+      date: "2024-03-20"
     },
     {
       id: "nasever",
@@ -205,10 +232,10 @@ const DB = {
         en: "To the North in Search of Pam Bur-Mort",
         et: "Põhja poole Pam Bur-Morti otsimas"
       },
-      author: { ru: "—", fi: "—", en: "—", et: "—" },
+      author: { ru: "К. Ф. Жаков", fi: "K. F. Zhakov", en: "K. F. Zhakov", et: "K. F. Zhakov" },
       category: "history",
       files: { ru: "books/nasever.pdf" },
-      cover: null,
+      cover: "images/nasever.jpg",
       description: {
         ru: "Путешествие на север в поисках Памом Бур-Мортом.",
         fi: "Matka pohjoiseen Pam Bur-Mortin etsinnässä.",
@@ -216,7 +243,8 @@ const DB = {
         et: "Reis põhja poole Pam Bur-Morti otsimisel."
       },
       featured: true,
-      contentLang: ["ru"]
+      contentLang: ["ru"],
+      date: "2024-06-10"
     }
   ],
 
@@ -225,23 +253,24 @@ const DB = {
       id: "komiles",
       type: "article",
       title: {
-        ru: "Коми-лес",
-        fi: "Komi-les",
-        en: "Komi-les",
-        et: "Komi-les"
+        ru: "Коми-пермяцкий уход в лес — пиратские базы, сектанты и лесные братья",
+        fi: "Komi-permjakkien pakko metsään — merirosvotukikohdat, lahkolaiset ja metsäveljet",
+        en: "Komi-Permian Retreat into the Forest — Pirate Bases, Sectarians and Forest Brothers",
+        et: "Komi-permja taganemine metsa — piraadibaasid, sektandid ja metsavennad"
       },
       author: { ru: "—", fi: "—", en: "—", et: "—" },
-      category: "culture",
+      category: "history",
       file: "article/komiles.mk",
       cover: "images/Komiles.jpg",
       description: {
-        ru: "Статья о коми-лесе.",
-        fi: "Artikkeli Komi-lesistä.",
-        en: "Article about Komi-les.",
-        et: "Artikkel Komi-lesist."
+        ru: "Статья о коми-пермяцком уходе в лес, пиратских базах, сектантах и лесных братьях.",
+        fi: "Artikkeli komi-permjakkien metsäpakosta, merirosvotukikohdista, lahkolaisista ja metsäveljistä.",
+        en: "Article about the Komi-Permian retreat into the forest, pirate bases, sectarians and forest brothers.",
+        et: "Artikkel komi-permja taganemisest metsa, piraadibaasidest, sektantidest ja metsavendadest."
       },
-      featured: false,
-      contentLang: ["ru"]
+      featured: true,
+      contentLang: ["ru"],
+      date: "2024-08-01"
     }
   ],
 
@@ -264,7 +293,7 @@ const DB = {
         en: "Image of Komi-les.",
         et: "Komi-lesi pilt."
       },
-      featured: true,
+      featured: false,
       contentLang: ["ru"]
     },
     {
