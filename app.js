@@ -3,8 +3,8 @@ let state = {
   lang: localStorage.getItem('bjarmkirja-lang') || 'ru',
   search: '',
   category: 'all',
-  theme: localStorage.getItem('bjarmkirja-theme') || 'light',
-  route: window.location.hash || '#/'
+  route: window.location.hash || '#/',
+  scrollY: 0
 };
 
 const t = (key) => DB.translations[state.lang][key] || key;
@@ -12,24 +12,6 @@ const getVal = (field) => {
   if (typeof field === 'string') return field;
   return field[state.lang] || field.ru || field.en || '';
 };
-
-// ===== THEME =====
-function applyTheme() {
-  document.documentElement.setAttribute('data-theme', state.theme);
-  localStorage.setItem('bjarmkirja-theme', state.theme);
-}
-function toggleTheme() {
-  state.theme = state.theme === 'light' ? 'dark' : 'light';
-  applyTheme();
-}
-
-// ===== SORT BY DATE (newest first) =====
-function sortByDate(items) {
-  return [...items].sort((a, b) => (b.date || '1900-01-01').localeCompare(a.date || '1900-01-01'));
-}
-function takeLast(items, n) {
-  return sortByDate(items).slice(0, n);
-}
 
 // ===== FILTER =====
 function filterItems(items) {
@@ -52,7 +34,13 @@ function router() {
 
   if (hash === '#/' || hash === '') {
     searchBar.style.display = 'block';
-    app.innerHTML = renderMain();
+    app.innerHTML = renderHome();
+  } else if (hash.startsWith('#/catalog/books')) {
+    searchBar.style.display = 'block';
+    app.innerHTML = renderCatalog('books');
+  } else if (hash.startsWith('#/catalog/articles')) {
+    searchBar.style.display = 'block';
+    app.innerHTML = renderCatalog('articles');
   } else if (hash.startsWith('#/book/')) {
     const id = hash.replace('#/book/', '');
     searchBar.style.display = 'none';
@@ -67,13 +55,32 @@ function router() {
     app.innerHTML = renderDetail('image', id);
   } else {
     searchBar.style.display = 'block';
-    app.innerHTML = renderMain();
+    app.innerHTML = renderHome();
   }
 
-  window.scrollTo(0, 0);
+  updateNavActive();
 }
 
-// ===== RENDER SEARCH BAR (once) =====
+// ===== UPDATE NAV =====
+function updateNavActive() {
+  const hash = window.location.hash || '#/';
+  document.querySelectorAll('.header-nav .nav-btn').forEach(btn => {
+    const href = btn.getAttribute('href');
+    btn.classList.toggle('active', hash === href || hash.startsWith(href + '/'));
+  });
+}
+
+// ===== UPDATE NAV TEXTS =====
+function updateNavTexts() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (key && DB.translations[state.lang][key]) {
+      el.textContent = DB.translations[state.lang][key];
+    }
+  });
+}
+
+// ===== RENDER SEARCH BAR =====
 function renderSearchBar() {
   const container = document.getElementById('search-bar');
   if (!container) return;
@@ -97,22 +104,14 @@ function renderSearchBar() {
   `;
 }
 
-// ===== RENDER MAIN CONTENT =====
-function renderMain() {
-  const allBooks = filterItems(DB.books);
-  const allArticles = filterItems(DB.articles);
-  const allImages = filterItems(DB.images);
-
-  // Featured — ручной выбор через featured: true
+// ===== RENDER HOME =====
+function renderHome() {
   const featuredItems = [
     ...DB.books.filter(b => b.featured),
     ...DB.articles.filter(a => a.featured),
     ...DB.images.filter(i => i.featured)
   ];
-
-  // Последние 6 книг и статей
-  const lastBooks = takeLast(allBooks, 6);
-  const lastArticles = takeLast(allArticles, 6);
+  const allImages = filterItems(DB.images);
 
   return `
     <main class="main">
@@ -129,34 +128,34 @@ function renderMain() {
 
       <section class="section">
         <div class="section-header">
-          <h2 class="section-title"><span class="icon">◈</span> ${t('books')}</h2>
-          ${allBooks.length > 6 ? `<span class="section-more">${t('lastAdded')}</span>` : ''}
-        </div>
-        <div class="grid">
-          ${lastBooks.map(item => renderCard(item)).join('')}
-        </div>
-        ${lastBooks.length === 0 ? renderEmpty() : ''}
-      </section>
-
-      <section class="section">
-        <div class="section-header">
-          <h2 class="section-title"><span class="icon">◉</span> ${t('articles')}</h2>
-          ${allArticles.length > 6 ? `<span class="section-more">${t('lastAdded')}</span>` : ''}
-        </div>
-        <div class="grid articles">
-          ${lastArticles.map(item => renderArticleCard(item)).join('')}
-        </div>
-        ${lastArticles.length === 0 ? renderEmpty() : ''}
-      </section>
-
-      <section class="section">
-        <div class="section-header">
           <h2 class="section-title"><span class="icon">✻</span> ${t('gallery')}</h2>
         </div>
         <div class="grid gallery">
           ${allImages.map(item => renderGalleryCard(item)).join('')}
         </div>
         ${allImages.length === 0 ? renderEmpty() : ''}
+      </section>
+    </main>
+  `;
+}
+
+// ===== RENDER CATALOG =====
+function renderCatalog(type) {
+  const items = type === 'books' ? filterItems(DB.books) : filterItems(DB.articles);
+  const title = type === 'books' ? t('catalogBooks') : t('catalogArticles');
+  const icon = type === 'books' ? '◈' : '◉';
+
+  return `
+    <main class="main">
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title"><span class="icon">${icon}</span> ${title}</h2>
+          <span class="section-more">${items.length} ${type === 'books' ? t('books').toLowerCase() : t('articles').toLowerCase()}</span>
+        </div>
+        <div class="grid ${type === 'articles' ? 'articles' : ''}">
+          ${items.map(item => type === 'books' ? renderCard(item) : renderArticleCard(item)).join('')}
+        </div>
+        ${items.length === 0 ? renderEmpty() : ''}
       </section>
     </main>
   `;
@@ -238,10 +237,8 @@ function renderEmpty() {
 
 // ===== MARKDOWN RENDERER =====
 function renderMarkdown(text) {
-  // Escape HTML
   text = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-  // Split into blocks
   const blocks = text.split(/\n\n+/);
   let html = '';
   let inList = false;
@@ -251,13 +248,11 @@ function renderMarkdown(text) {
     block = block.trim();
     if (!block) continue;
 
-    // Close list if needed
     if (inList && !block.match(/^[-*\d]\.\s/)) {
       html += listType === 'ul' ? '</ul>' : '</ol>';
       inList = false;
     }
 
-    // Headers
     if (block.match(/^#{1,6}\s/)) {
       const level = block.match(/^(#{1,6})\s/)[1].length;
       const content = block.replace(/^#{1,6}\s/, '');
@@ -265,14 +260,12 @@ function renderMarkdown(text) {
       continue;
     }
 
-    // Blockquote
     if (block.match(/^>\s/)) {
       const content = block.replace(/^>\s?/gm, '');
       html += `<blockquote>${inlineFormat(content)}</blockquote>`;
       continue;
     }
 
-    // Unordered list
     if (block.match(/^[-*]\s/m)) {
       if (!inList || listType !== 'ul') {
         if (inList) html += listType === 'ul' ? '</ul>' : '</ol>';
@@ -288,7 +281,6 @@ function renderMarkdown(text) {
       continue;
     }
 
-    // Ordered list
     if (block.match(/^\d+\.\s/m)) {
       if (!inList || listType !== 'ol') {
         if (inList) html += listType === 'ul' ? '</ul>' : '</ol>';
@@ -304,7 +296,6 @@ function renderMarkdown(text) {
       continue;
     }
 
-    // Regular paragraph
     html += `<p>${inlineFormat(block)}</p>`;
   }
 
@@ -314,15 +305,10 @@ function renderMarkdown(text) {
 }
 
 function inlineFormat(text) {
-  // Code
   text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
-  // Bold
   text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-  // Italic
   text = text.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-  // Links
   text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
-  // Line breaks within block
   text = text.replace(/\n/g, '<br>');
   return text;
 }
@@ -331,7 +317,7 @@ function inlineFormat(text) {
 function renderDetail(type, id) {
   const collection = type === 'book' ? DB.books : type === 'article' ? DB.articles : DB.images;
   const item = collection.find(i => i.id === id);
-  if (!item) return renderMain();
+  if (!item) return renderHome();
 
   const title = getVal(item.title);
   const author = getVal(item.author);
@@ -340,32 +326,33 @@ function renderDetail(type, id) {
   const isBook = type === 'book';
   const isMk = item.file && item.file.toLowerCase().endsWith('.mk');
 
-  // AI badge
-  const aiBadge = item.isAITranslated ? `<div class="ai-badge">${t('aiTranslated')}</div>` : '';
-
-  // For books with multiple files
   let fileButtons = '';
   let viewerContent = '';
   let actionButtons = '';
 
   if (isBook && item.files) {
     const langs = Object.keys(item.files);
+    const defaultLang = item.files[state.lang] ? state.lang : langs[0];
+
     if (langs.length > 1) {
       fileButtons = `
         <div class="version-selector">
           <span class="version-label">${t('selectVersion')}</span>
           <div class="version-btns">
             ${langs.map(l => `
-              <button class="version-btn ${l === state.lang ? 'active' : ''}" 
+              <button class="version-btn ${l === defaultLang ? 'active' : ''}" 
                 onclick="selectVersion('${item.id}', '${l}')">${l.toUpperCase()}</button>
             `).join('')}
           </div>
         </div>
       `;
     }
-    const defaultLang = item.files[state.lang] ? state.lang : langs[0];
+
     const defaultFile = item.files[defaultLang];
     viewerContent = `<iframe src="${defaultFile}" id="book-viewer" title="${title}"></iframe>`;
+
+    // AI badge только для EN версии
+    const aiBadge = (item.isAITranslated && defaultLang === 'en') ? `<div class="ai-badge">${t('aiTranslated')}</div>` : '';
 
     actionButtons = `
       <div class="detail-actions" id="detail-actions">
@@ -380,12 +367,13 @@ function renderDetail(type, id) {
           </a>
         `).join('')}
       </div>
+      ${aiBadge}
     `;
   } else if (isImage) {
     viewerContent = `<img src="${item.file}" alt="${title}" style="max-width:100%; border-radius:8px;">`;
-    actionButtons = `<div class="detail-actions"><a href="${item.file}" download class="detail-btn primary">${t('download')}</a></div>`;
+    // Нет кнопки скачать для картинок
+    actionButtons = '';
   } else if (isMk) {
-    // Markdown file — load and render
     viewerContent = `<div id="mk-content" style="min-height:400px;"><p style="color:var(--text-muted);text-align:center;padding:40px;">Загрузка...</p></div>`;
     setTimeout(() => loadMarkdown(item.file, 'mk-content'), 10);
     actionButtons = `
@@ -416,7 +404,6 @@ function renderDetail(type, id) {
           ${item.contentLang ? `<span>🌐 ${item.contentLang.map(l => l.toUpperCase()).join(', ')}</span>` : ''}
         </div>
         <p class="detail-desc">${desc}</p>
-        ${aiBadge}
         ${fileButtons}
         ${actionButtons}
       </div>
@@ -462,6 +449,12 @@ function selectVersion(bookId, lang) {
     const btnLang = btn.className.match(/lang-action-([a-z]+)/)?.[1];
     btn.style.display = btnLang === lang ? 'inline-flex' : 'none';
   });
+
+  // Показать/скрыть плашку ИИ
+  const aiBadge = document.querySelector('.ai-badge');
+  if (aiBadge) {
+    aiBadge.style.display = (book.isAITranslated && lang === 'en') ? 'inline-flex' : 'none';
+  }
 }
 
 // ===== ACTIONS =====
@@ -471,28 +464,34 @@ function goTo(type, id) {
 
 function onSearch(value) {
   state.search = value;
-  // Re-render only main content, not search bar
   const app = document.getElementById('app');
-  if (state.route === '#/' || state.route === '') {
-    app.innerHTML = renderMain();
+  if (state.route === '#/' || state.route === '' || state.route.startsWith('#/catalog/')) {
+    router();
   }
 }
 
 function onCategory(value) {
   state.category = value;
   const app = document.getElementById('app');
-  if (state.route === '#/' || state.route === '') {
-    app.innerHTML = renderMain();
+  if (state.route === '#/' || state.route === '' || state.route.startsWith('#/catalog/')) {
+    router();
   }
 }
 
 function setLang(lang) {
+  // Сохраняем позицию скролла
+  const scrollY = window.scrollY;
+
   state.lang = lang;
   localStorage.setItem('bjarmkirja-lang', lang);
   updateLangButtons();
+  updateNavTexts();
   renderSearchBar();
   router();
   updateHeaderText();
+
+  // Восстанавливаем позицию скролла
+  setTimeout(() => window.scrollTo(0, scrollY), 0);
 }
 
 function updateLangButtons() {
@@ -509,8 +508,8 @@ function updateHeaderText() {
 // ===== INIT =====
 window.addEventListener('hashchange', router);
 window.addEventListener('DOMContentLoaded', () => {
-  applyTheme();
   updateLangButtons();
+  updateNavTexts();
   renderSearchBar();
   router();
 });
