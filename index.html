@@ -10,29 +10,14 @@
   <header class="header">
     <div class="header-inner">
       <a href="#/" class="logo-group">
-        <!-- Солярный знак Удмуртии (солнце с 8 лучами: 4 прямые + 4 изогнутые) -->
+        <!-- Восьмиконечная финно-угорская звезда (этнический символ) -->
         <svg class="logo-star" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <!-- Центральный круг -->
-          <circle cx="50" cy="50" r="14" fill="#D52B1E" stroke="#000000" stroke-width="2"/>
-
-          <!-- 4 прямых луча (крест) -->
-          <rect x="46" y="8" width="8" height="24" fill="#D52B1E" stroke="#000000" stroke-width="1.5" rx="1"/>
-          <rect x="46" y="68" width="8" height="24" fill="#D52B1E" stroke="#000000" stroke-width="1.5" rx="1"/>
-          <rect x="8" y="46" width="24" height="8" fill="#D52B1E" stroke="#000000" stroke-width="1.5" rx="1"/>
-          <rect x="68" y="46" width="24" height="8" fill="#D52B1E" stroke="#000000" stroke-width="1.5" rx="1"/>
-
-          <!-- 4 изогнутых луча (дуги) -->
-          <path d="M 65 22 Q 78 35 78 50" fill="none" stroke="#D52B1E" stroke-width="6" stroke-linecap="round"/>
-          <path d="M 65 22 Q 78 35 78 50" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round"/>
-
-          <path d="M 78 50 Q 78 65 65 78" fill="none" stroke="#D52B1E" stroke-width="6" stroke-linecap="round"/>
-          <path d="M 78 50 Q 78 65 65 78" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round"/>
-
-          <path d="M 35 78 Q 22 65 22 50" fill="none" stroke="#D52B1E" stroke-width="6" stroke-linecap="round"/>
-          <path d="M 35 78 Q 22 65 22 50" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round"/>
-
-          <path d="M 22 50 Q 22 35 35 22" fill="none" stroke="#D52B1E" stroke-width="6" stroke-linecap="round"/>
-          <path d="M 22 50 Q 22 35 35 22" fill="none" stroke="#000000" stroke-width="1.5" stroke-linecap="round"/>
+          <g fill="#D52B1E" stroke="#000000" stroke-width="1.5" stroke-linejoin="round">
+            <!-- 8 лучей звезды -->
+            <polygon points="50,2 56,38 92,20 62,44 98,50 62,56 92,80 56,62 50,98 44,62 8,80 38,56 2,50 38,44 8,20 44,38" />
+          </g>
+          <!-- Центр -->
+          <circle cx="50" cy="50" r="10" fill="#000000" />
         </svg>
         <div class="logo-text">
           <span class="logo-name">Bjarmkirja</span>
@@ -40,35 +25,33 @@
         </div>
       </a>
 
-      <nav class="nav">
-        <a href="#/" class="nav-btn active" onclick="setActiveNav(this)">Главная</a>
-      </nav>
+      <div class="header-right">
+        <button class="theme-toggle" onclick="toggleTheme()" title="Тёмная/светлая тема">
+          <span class="theme-icon">🌓</span>
+        </button>
 
-      <div class="lang-switcher">
-        <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
-        <button class="lang-btn" data-lang="fi" onclick="setLang('fi')">FI</button>
-        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
-        <button class="lang-btn" data-lang="et" onclick="setLang('et')">ET</button>
+        <div class="lang-switcher">
+          <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
+          <button class="lang-btn" data-lang="fi" onclick="setLang('fi')">FI</button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+          <button class="lang-btn" data-lang="et" onclick="setLang('et')">ET</button>
+        </div>
       </div>
     </div>
   </header>
+
+  <!-- Search bar вынесен отдельно, чтобы не терял фокус -->
+  <div id="search-bar"></div>
 
   <div id="app"></div>
 
   <footer class="footer">
     <div class="footer-inner">
-      <p>© 2026 Bjarmkirja — Финно-угорская библиотека</p>
-      <p style="margin-top:4px; font-size:12px;">Народ коми · Komi people · Komin kansa · Komi rahvas</p>
+      <p>© 2026 Bjarmkirja</p>
     </div>
   </footer>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
-  <script>
-    function setActiveNav(el) {
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      el.classList.add('active');
-    }
-  </script>
 </body>
 </html>
